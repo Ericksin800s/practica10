@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Bytesized&family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bungee+Spice&family=Cinzel:wght@400..900&family=Creepster&family=Patua+One&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <title>Consulta de Sueldo</title>
+</head>
+<body>
+
+    <h1>Consulta de Estatus de Sueldo</h1>
+    <div id="resultado"></div>
+    <button onclick="agregarRegistro()">Nuevo Registro</button>
+
+    <script>
+        alert("HOLA, BIENVENIDO A ESTA INTERFAZ PARA CONSULTAR EL ESTATUS DE TU SUELDO");
+        
+        let registros = parseInt(prompt("DAME EL NÚMERO DE REGISTROS:"));
+        if (isNaN(registros) || registros <= 0) {
+            alert("POR FAVOR INGRESE UN NÚMERO VÁLIDO DE REGISTROS");
+            throw new Error("Entrada no válida. Deteniendo el script.");
+        }
+        
+        let tablaHTML = `
+            <table border="1">
+                <tr>
+                    <th>#</th>
+                    <th><h2>Nombre</h2></th>
+                    <th><h3>Antigüedad<h3></th>
+                    <th><h4>Salario Base</h4></th>
+                    <th><h2>Estatus</h2></th>
+                    <th><h6>Bono</h6></th>
+                    <th><h2>Salario Final</h2></th>
+                    <th><h3>RFC</h3></th>
+                    <th><h4>Foto</h4></th>
+                </tr>
+        `;
+
+        let datos = [];
+        for (let i = 0; i < registros; i++) {
+            datos.push({ nombre: "", antiguedad: "", salarioBase: "", estatus: "", bono: "", salarioFinal: "", rfc: "", imagen: "default.jpg" });
+            tablaHTML += `
+                <tr id="fila${i}">
+                    <td>${i + 1}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><img src="cara.png" width="50" height="50" onclick="abrirImagen('cara.png')"></td>
+                </tr>
+            `;
+        }
+        
+        tablaHTML += "</table>";
+        document.getElementById("resultado").innerHTML = tablaHTML;
+
+        function agregarRegistro() {
+            for (let i = 0; i < datos.length; i++) {
+                if (datos[i].nombre === "") {
+                    let nombre = prompt("FAVOR DE INGRESAR SU NOMBRE:");
+                    let salarioBase = parseFloat(prompt("¿CUÁL ES TU SALARIO? :"));
+                    let antiguedad = parseInt(prompt("INGRESE SU AÑO DE ANTIGÜEDAD:"));
+                    let rfc = prompt("INGRESE SU RFC:");
+                    
+                    if (isNaN(salarioBase) || isNaN(antiguedad)) {
+                        alert("POR FAVOR INGRESE VALORES NUMÉRICOS VÁLIDOS");
+                        return;
+                    }
+
+                    let estatus = "No aprueba";
+                    let bono = "0%";
+                    let salarioFinal = salarioBase;
+                    let imagen = "cara.png";
+                    
+                    if (antiguedad >= 10) {
+                        estatus = "Activo";
+                        bono = "30%";
+                        salarioFinal = salarioBase * 1.30;
+                    }
+
+                    if (rfc === "RFC123") {
+                        imagen = "PERSONA1.jpg";
+                    } else if (rfc === "RFC456") {
+                        imagen = "PERSONA2.jpg";
+                    }
+
+                    datos[i] = { nombre, antiguedad, salarioBase, estatus, bono, salarioFinal, rfc, imagen };
+                    document.getElementById(`fila${i}`).innerHTML = `
+                        <td>${i + 1}</td>
+                        <td>${nombre}</td>
+                        <td>${antiguedad} años</td>
+                        <td>$${salarioBase.toFixed(2)}</td>
+                        <td><b>${estatus}</b></td>
+                        <td>${bono}</td>
+                        <td>$${salarioFinal.toFixed(2)}</td>
+                        <td>${rfc}</td>
+                        <td><img src="${imagen}" class="miniatura" onclick="abrirImagen('${imagen}')"></td>
+                    `;
+                    break;
+                }
+            }
+        }
+
+        function abrirImagen(src) {
+            let ventana = window.open("", "_blank");
+            ventana.document.write(`
+                <html>
+                <head>
+                    <title>Imagen Completa</title>
+                    <link rel="stylesheet" href="style.css">
+                </head>
+                <body class="imagen-grande">
+                    <img src="${src}" alt="Imagen">
+                </body>
+                </html>
+            `);
+        }
+    </script>
+    
+</body>
+</html>
