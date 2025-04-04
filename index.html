@@ -64,13 +64,13 @@
         tablaHTML += "</table>";
         document.getElementById("resultado").innerHTML = tablaHTML;
         function agregarFila() {
-    let tabla = document.querySelector("table"); // Obtener la tabla
-    let nuevaFila = tabla.insertRow(); // Insertar nueva fila al final
+    let tabla = document.querySelector("table");
+    let nuevaFila = tabla.insertRow(); 
 
-    let index = tabla.rows.length - 1; // Obtener el número de la nueva fila
-    nuevaFila.id = `fila${index}`; // Asignar un ID único
+    let index = tabla.rows.length - 1; 
+    nuevaFila.id = `fila${index}`; 
 
-    // Crear las celdas con los mismos estilos y estructura
+    
     nuevaFila.innerHTML = `
         <td>${index}</td>
         <td></td>
@@ -83,7 +83,7 @@
         <td><img src="cara.png" width="50" height="50" onclick="abrirImagen('cara.png')"></td>
     `;
 
-    // Agregar un objeto vacío en datos[]
+  
     datos.push({ nombre: "", antiguedad: "", salarioBase: "", estatus: "", bono: "", salarioFinal: "", rfc: "", imagen: "cara.png" });
 }
 
